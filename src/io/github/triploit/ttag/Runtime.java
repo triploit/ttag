@@ -11,15 +11,15 @@ import java.util.Map;
 public class Runtime implements Serializable
 {
     public static Game game = new Game();
-    private static List<String> error_names = new ArrayList<>();
-    private static List<String> error_messages = new ArrayList<>();
-    private static List<Integer> error_ids = new ArrayList<>();
-    private static List<String> error_ids_messages = new ArrayList<>();
-    public static String yaml_file;
-    public static boolean warning = true;
-    public static int warning_count = 0;
+    private static List<String> error_names = new ArrayList<>(); // Alle fehlerhaften Namen, die beim Laden aufgetreten sind
+    private static List<String> error_messages = new ArrayList<>(); // Alle Errors, die beim Laden aufgetreten sind
+    private static List<Integer> error_ids = new ArrayList<>(); // Alle fehlerhaften/nicht gefundenen Namen, die beim Laden aufgetreten sind
+    private static List<String> error_ids_messages = new ArrayList<>(); // Alle generierten Nachrichten mit den fehlerhaften ID's zur Ausgabe
+    public static String yaml_file; // Die Angegebene YAML-Datei
+    public static boolean warning = true; // Die "warning: true/false" Option in der YAML-Datei
+    public static int warning_count = 0; // Anzahl der Warnungen
 
-    public static int setInt(Object o, String _warning)
+    public static int setInt(Object o, String _warning) // Einen Integerwert beim Laden setzen, siehe "Room.java" oder "Door.java"
     {
         if (o == null && ((String) o) == null)
         {
@@ -48,7 +48,7 @@ public class Runtime implements Serializable
         return ret;
     }
 
-    public static String setString(Object o, String _warning)
+    public static String setString(Object o, String _warning) // Einen String beim Laden setzen, siehe "Room.java" oder "Door.java"
     {
         if (o == null && ((String) o) == null)
         {
@@ -64,7 +64,7 @@ public class Runtime implements Serializable
 
 
 
-    public static List<Integer> setListINT(Object o, String _warning)
+    public static List<Integer> setListINT(Object o, String _warning) // Eine Liste setzen, siehe "Room.java" oder "Door.java" oder "Item.java"
     {
         if (o == null && ((List<Integer>) o) == null)
         {
@@ -78,7 +78,7 @@ public class Runtime implements Serializable
         return (List<Integer>) o;
     }
 
-    public static List<String> setListSTR(Object o, String _warning)
+    public static List<String> setListSTR(Object o, String _warning) // Eine Liste setzen
     {
         if (o == null && ((List<String>) o) == null)
         {
@@ -92,7 +92,7 @@ public class Runtime implements Serializable
         return (List<String>) o;
     }
 
-    public static void printWarning(String s)
+    public static void printWarning(String s) // Eine Warnung ausgeben
     {
         if (Runtime.warning)
         {
@@ -101,7 +101,7 @@ public class Runtime implements Serializable
         }
     }
 
-    public static boolean setBool(Object o, String _warning)
+    public static boolean setBool(Object o, String _warning) // Einen Boolean setzen, siehe "Room.java" oder "Door.java"
     {
         if (o == null || ((String) o).equals("<NOT SET>"))
         {
@@ -200,10 +200,10 @@ public class Runtime implements Serializable
                     System.exit(1);
                 }
 
-                Item.init(D);
-                Room.init(D);
-                Monster.init(D);
-                Door.init(D);
+                Item.init(D); // Alle Items aus der YAML laden
+                Room.init(D); // Alle Räume ...
+                // Monster.init(D); // Alle Monster ...
+                Door.init(D); // Alle Türen ...
 
                 for (int i = 0; i < error_names.size(); i++)
                 {
@@ -229,8 +229,8 @@ public class Runtime implements Serializable
 
                 try
                 {
-                    Runtime.game.player.inventory_size = Integer.parseInt((String) ((Map) D.get("player")).get("inventory"));
-                    Runtime.game.player.position = Integer.parseInt((String) ((Map) D.get("player")).get("position"));
+                    Runtime.game.player.inventory_size = Integer.parseInt((String) ((Map) D.get("player")).get("inventory")); // Größe des Spielerinventars setzen. Vielleich später mit "Stärketränken" o.ä. Verknüofbar
+                    Runtime.game.player.position = Integer.parseInt((String) ((Map) D.get("player")).get("position")); // Anfangsraum des Spielers, wenn das Spiel geladen wird
 
                 }
                 catch (Exception ex) {

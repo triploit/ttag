@@ -8,17 +8,17 @@ import java.util.Map;
 
 public class Item implements Serializable
 {
-    public int id;
-    public String v_name;
-    public int size;
+    public int id; // Die ID
+    public String v_name; // Der Variablenname
+    public int size; // Die größe des Items
 
-    public Name name = new Name();
-    public ItemAttribut attributes = new ItemAttribut();
-    public String description;
+    public Name name = new Name(); // Der Name des Items
+    public ItemAttribut attributes = new ItemAttribut(); // Attribute des Items
+    public String description; // Beschreibung des Items
 
-    public String see_dark;
-    public String see_light;
-    public int position;
+    public String see_dark; // Beschreibung, wenn es hell ist
+    public String see_light; // Beschreibung, wenn es dunkel ist
+    public int position; // Wo das Item liegt./Position
 
     public Item(int id, String name)
     {
@@ -42,17 +42,19 @@ public class Item implements Serializable
                 return;
             }
 
-            for (Object item : items.keySet().toArray())
+            for (Object item : items.keySet().toArray()) // Durch alle Items in der Map iterieren
             {
-                Item toadd = new Item();
-                Map tm = (Map) items.get((String) item);
-                litem = (String) item;
+                Item toadd = new Item(); // Das Item, das hinzugefügt werden soll
+                Map tm = (Map) items.get((String) item); // Die Map/generiert aus der YAML-Datei mit allen Items
+                litem = (String) item; // Name des aktuellen Items
 
                 toadd.v_name = Runtime.setString((String) item, "unmögliche warnung! sollte diese warnung auftreten, bitte kontaktieren sie umgehend den entwickler (WID: 1)!");
 
-                if (tm.get("name") != null && (Map) tm.get("name") != null)
+                if (tm.get("name") != null && (Map) tm.get("name") != null) // Schauen ob Attribut "name" existiert
                 {
-                    toadd.name.light = Runtime.setString(((Map) tm.get("name")).get("light"), "item " + litem + ": der name \"name: light\" wurde nicht gesetzt.");
+                    // Mit Runtime.setXXX(Wert, WarnungsNachricht) kann man einen Wert setzen, ohne Vorher überprüfen zu müssen, ob dieser in einer Map definiert ist. Existiert dieser in der Map nicht, wird die Warnung ausgegeben
+
+                    toadd.name.light = Runtime.setString(((Map) tm.get("name")).get("light"), "item " + litem + ": der name \"name: light\" wurde nicht gesetzt."); // Wert von toadd.name.light aus Map holen
                     toadd.name.dark = Runtime.setString(((Map) tm.get("name")).get("dark"), "item " + litem + ": der name \"name: dark\" wurde nicht gesetzt.");
                     toadd.name.akkusativ = Runtime.setString(((Map) tm.get("name")).get("akkusativ"), "item " + litem + ": der name \"name: akkusativ\" wurde nicht gesetzt.");
                     toadd.name.alternative = Runtime.setString(((Map) tm.get("name")).get("alternative"), "item " + litem + ": der alternative \"name: dark\" wurde nicht gesetzt.");
@@ -76,7 +78,7 @@ public class Item implements Serializable
                 toadd.see_dark = Runtime.setString(tm.get("see_dark"), "item "+item+": see_dark wurde nicht gesetzt.");
                 toadd.description = Runtime.setString(tm.get("description"), "item "+item+": description wurde nicht gesetzt.");
 
-                if (tm.get("attributes") != null && (Map) tm.get("attributes") != null)
+                if (tm.get("attributes") != null && (Map) tm.get("attributes") != null) // Schauen ob Attribut "attributes" existiert
                 {
                     toadd.attributes.catchable = Runtime.setBool(((Map) tm.get("attributes")).get("catchable"), "item "+litem+": das attribut \"attribut: catchable\" wurde nicht gesetzt.");
                     toadd.attributes.key = Runtime.setBool(((Map) tm.get("attributes")).get("key"), "item "+litem+": das attribut \"attribut: key\" wurde nicht gesetzt.");
@@ -92,13 +94,13 @@ public class Item implements Serializable
                     toadd.attributes.readable = Runtime.setBool(((Map) tm.get("attributes")).get("readable"), "item "+litem+": das attribut \"attribut: readable\" wurde nicht gesetzt.");
                 }
 
-                if (Runtime.game.nameIsDefined(toadd.v_name))
+                if (Runtime.game.nameIsDefined(toadd.v_name)) // Schauen ob der Variablenname des aktuellen Items schon benutzt wird
                 {
                     System.out.println("error: (feld-)name von "+toadd.v_name+" ist schon benutzt. bitte aendere diesen (feld-)namen.");
                     System.exit(1);
                 }
 
-                if (Runtime.game.idIsDefined(toadd.id))
+                if (Runtime.game.idIsDefined(toadd.id)) // Schauen ob die ID des aktuellen Items schon benutzt wird
                 {
                     System.out.println("error: id von "+toadd.v_name+" ist schon benutzt. bitte aendere diese id.");
                     System.exit(1);

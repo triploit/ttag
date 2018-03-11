@@ -238,21 +238,20 @@ public class Game implements Serializable
         return false;
     }
 
-    public static String[] sortStrArray(String[] array)
+    public static String[] sortStrArray(String[] array) // Einen String Array sortieren
     {
-        //sort arrays by length before returning
         Arrays.sort(array, new Comparator<String>()
         {
             @Override
             public int compare(String a, String b)
             {
-                return Integer.compare(a.length(), b.length());//specifying compare type that is compare with length
+                return Integer.compare(a.length(), b.length());
             }
         });
         return array;
     }
 
-    public Integer[] findNameIn(String s)
+    public Integer[] findNameIn(String s) // Alle Items mit einem bestimmten Namen finden
     {
         for (Item d : items)
         {
@@ -283,7 +282,7 @@ public class Game implements Serializable
         return null;
     }
 
-    public boolean existsItem(String s)
+    public boolean existsItem(String s) // Schauen, ob ein Item mit dem Namen s existiert
     {
         for (Item i : items)
         {
@@ -295,7 +294,7 @@ public class Game implements Serializable
         return false;
     }
 
-    public boolean existsRoom(String s)
+    public boolean existsRoom(String s) // Schauen, ob ein Raum mit einem bestimmten Namen existiert
     {
         for (Room i : rooms)
         {
@@ -307,12 +306,19 @@ public class Game implements Serializable
         return false;
     }
 
-    public void setItem(String name, Item i)
+    public void setItem(String name, Item i) // Item per Name setzen
     {
-
+        for (int it = 0; it < items.size(); it++)
+        {
+            if (items.get(it).name.equalsName(name))
+            {
+                items.set(it, i);
+                return;
+            }
+        }
     }
 
-    public List<Item> getItemsAtPosition(int pos)
+    public List<Item> getItemsAtPosition(int pos) // Alle Items in einem Raum (per ID) finden
     {
         List<Item> is = new ArrayList<>();
 
@@ -327,7 +333,7 @@ public class Game implements Serializable
         return is;
     }
 
-    public void removeItem(int id)
+    public void removeItem(int id) // Ein Item per ID aus dem Spiel entfernen (ist dieses im Spielerinventar, existiert dies weiter)
     {
         for (int i = 0; i < items.size(); i++)
         {

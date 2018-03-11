@@ -10,7 +10,7 @@ public class Commands implements Serializable
     private static String[] pronomen = {"er", "sie", "es", "ihn"};
     private static String object = "";
 
-    public static List<String> lexer(String input)
+    public static List<String> lexer(String input) // Den Input aufteilen
     {
         if (input.length() == 0)
         {
@@ -18,9 +18,9 @@ public class Commands implements Serializable
             return null;
         }
 
-        Integer[] found = null;
-        List<Integer[]> founds = new ArrayList<>();
-        String input2 = input;
+        Integer[] found = null; // ID's der Objekte, die im Befehl angegeben wurden
+        List<Integer[]> founds = new ArrayList<>(); // Liste der Funde
+        String input2 = input; // Temporäre input Variable
 
         found = (Runtime.game.findNameIn(input2));
 
@@ -31,10 +31,10 @@ public class Commands implements Serializable
             found = (Runtime.game.findNameIn(input2));
         }
 
-        String tmp = "";
-        List<String> tokens = new ArrayList<>();
+        String tmp = ""; // temporäre Variable
+        List<String> tokens = new ArrayList<>(); // Liste der Tokens
 
-        for (int i = 0; i < input.length(); i++)
+        for (int i = 0; i < input.length(); i++) // Druch den Input gehen
         {
             if (founds.size() != 0)
             {
@@ -98,51 +98,67 @@ public class Commands implements Serializable
         return tokens;
     }
 
-    public static void execute(List<String> args)
+    public static void execute(List<String> args) // Aufgeteilten Befehl ausführen
     {
-        List<String> s = args;
+        List<String> s = args; // Liste der Argumente
 
         // Artikel & Personalpronomen hinzufügen
         // sie = get(x+1) // (sie = "Fackel")
         // "leg sie weg".(replace sie -> Fackel)
         // Ignore Wörter drinne lassen, sind Artikel
 
-        if (s.size() == 0)
+        if (s.size() == 0) // Wenn die Länge 0 ist, wurde kein Argument angegeben
         {
             System.out.println("Pardon?");
             return;
         }
 
-        for (int i = 0; i < s.size(); i++)
+        // Objekte und Pronomen ersetzen
+
+        for (int i = 0; i < s.size(); i++) // Durch die Argumente iterieren
         {
-            for (String a : artikel)
+            /*
+            Hier passiert folgendes:
+                1. nimm den Brief
+                2. object = "Brief"
+            */
+
+            for (String a : artikel) // Durch Artikel iterieren
             {
-                if (a.equalsIgnoreCase(s.get(i)))
+                if (a.equalsIgnoreCase(s.get(i))) // Schauen ob ein Artikel angegeben wurde
                 {
-                    object = s.get(i+1);
+                    object = s.get(i+1); // object auf das Wort nach dem Artikel setzen
                 }
             }
         }
 
-        for (int i2 = 0; i2 < s.size(); i2++)
+        for (int i2 = 0; i2 < s.size(); i2++) // Durch Argumente iterieren
         {
-            for (String a : pronomen)
+            /*
+            Hier passiert folgendes:
+                1. nimm ihn
+                2. pronomen = ihn
+                3. pronomen wird durch object ersetzt
+                4. nimm Brief
+            */
+
+            for (String a : pronomen) // Durch Pronomen iterieren
             {
-                if (a.equalsIgnoreCase(s.get(i2)))
+                if (a.equalsIgnoreCase(s.get(i2))) // Schauen ob das Argument an Stelle i2 ein Pronomen ist
                 {
-                    s.set(i2, object);
+                    s.set(i2, object); // Das Pronomen im Argument durch das aktuelle Objekt ersetzen
                 }
             }
         }
 
-        for (String str : s)
+        /*for (String str : s) // Alle Argumente nochmal ausgeben
         {
             System.out.println("? \""+str+"\"");
-        }
+        }*/
 
         for (int i = 0; i < s.size(); i++)
         {
-            for (String str : ignore)
+            for (String str : ignore) // Alle unwichtigen Wörter entfernen
             {
                 if (s.size() == 0) break;
                 if (s.get(i).equalsIgnoreCase(str))
@@ -152,7 +168,7 @@ public class Commands implements Serializable
                 }
             }
 
-            for (String str : artikel)
+            for (String str : artikel) // Alle Artikel entfernen
             {
                 if (s.size() == 0) break;
                 if (s.get(i).equalsIgnoreCase(str))
@@ -162,7 +178,7 @@ public class Commands implements Serializable
                 }
             }
 
-            for (String str : pronomen)
+            for (String str : pronomen) // Alle Pronomen entfernen
             {
                 if (s.size() == 0) break;
                 if (s.get(i).equalsIgnoreCase(str))
@@ -173,10 +189,10 @@ public class Commands implements Serializable
             }
         }
 
-        boolean item_light = false;
+        boolean item_light = false; // Kein Item macht licht
         boolean f = false;
 
-        for (Item it : Runtime.game.player.inventory.items)
+        for (Item it : Runtime.game.player.inventory.items) // Schauen ob ein Item im Inventar des Spielers Licht ausstrahlt
         {
             if (it.attributes.light && it.attributes.activated)
             {
@@ -184,10 +200,10 @@ public class Commands implements Serializable
             }
         }
 
-        Runtime.game.player.does_light = f;
+        Runtime.game.player.does_light = f; // Wenn ein Item Licht ausstrahlt, Attribut setzen
         f = false;
 
-        for (Item it : Runtime.game.getItemsAtPosition(Runtime.game.player.position))
+        for (Item it : Runtime.game.getItemsAtPosition(Runtime.game.player.position)) // Schauen ob Item auf dem Boden liegen, die Licht ausstrahlen.
         {
             if (it.attributes.light && it.attributes.activated)
             {
@@ -213,12 +229,12 @@ public class Commands implements Serializable
         *   new_game        - neuen spielstand
         * */
 
-        if (s.get(0).equals("l") || s.get(0).equals("look"))
+        if (s.get(0).equals("l") || s.get(0).equals("look")) // Abfragen, ob der Befehl "l" oder "look" ist
         {
 
             System.out.println("<===> " + Runtime.game.getRoomByID(Runtime.game.player.position).name.alternative + " <===>");
 
-            if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light)
+            if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light) // Schauen ob aktuelle Raum, in dem sich der Spieler befindet, dunkel ist und der Spieler nichts hat, was licht ausstrahlt und nichts auf dem Boden lieg, die Licht ausstrahlen
             {
                 if (Runtime.game.getRoomByID(Runtime.game.player.position).see_dark.length() >= 1 && !Runtime.game.getRoomByID(Runtime.game.player.position).see_dark.equals("<NOT SET>")) System.out.println(Runtime.game.getRoomByID(Runtime.game.player.position).see_dark);
                 else System.out.println("Es ist hier zu dunkel um etwas zu sehen.");
@@ -229,9 +245,9 @@ public class Commands implements Serializable
             }
 
 
-            for (Item i : Runtime.game.getItemsAtPosition(Runtime.game.player.position))
+            for (Item i : Runtime.game.getItemsAtPosition(Runtime.game.player.position)) // Druch alle Items iterieren, die im aktuellen Raum sind
             {
-                if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light)
+                if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light) // Schauen ob es dunkel ist
                 {
                     if (i.see_dark.length() >= 1 && !i.see_dark.equals("<NOT SET>")) System.out.println(i.see_dark);
                 }
@@ -317,7 +333,7 @@ public class Commands implements Serializable
 
                     if (i.attributes.readable)
                     {
-                        if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light)
+                        if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light) // Schauen ob es Licht zum Lesen gibt
                         {
                             System.out.println("Es ist hier zu dunkel um zu lesen.");
                         }
@@ -329,12 +345,12 @@ public class Commands implements Serializable
                     else
                         System.out.println("Das kann man nicht lesen.");
                 }
-                else if (Runtime.game.player.inventory.existsItemByName(s.get(1)))
+                else if (Runtime.game.player.inventory.existsItemByName(s.get(1))) // Schauen ob der Spieler ein Item mit dem Namen im Inventar hat
                 {
-                    Item i = Runtime.game.player.inventory.getItemByName(s.get(1));
-                    if (i.attributes.readable)
+                    Item i = Runtime.game.player.inventory.getItemByName(s.get(1)); // Das Item nehmen
+                    if (i.attributes.readable) // Schauen ob man das Item lesen kann
                     {
-                        if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light)
+                        if (Runtime.game.getRoomByID(Runtime.game.player.position).attributes.dark && !Runtime.game.player.does_light && !item_light) // Schauen ob es licht zum Lesen gibt
                         {
                             System.out.println("Es ist hier zu dunkel um zu lesen.");
                         }
@@ -371,7 +387,7 @@ public class Commands implements Serializable
                 }
             }
         }
-        else if (s.get(0).equalsIgnoreCase("nimm"))
+        else if (s.get(0).equalsIgnoreCase("nimm")) // Ein Item im Raum nehmen
         {
             if (s.size() < 2)
             {
@@ -379,9 +395,9 @@ public class Commands implements Serializable
             }
             else
             {
-                if (Runtime.game.existsItem(s.get(1)))
+                if (Runtime.game.existsItem(s.get(1))) // Schauen ob es ein Item an der Position des Spielers mit dem Namen gibt
                 {
-                    Runtime.game.player.inventory.collectItemFromGame(Runtime.game.getItemByName(s.get(1)).id);
+                    Runtime.game.player.inventory.collectItemFromGame(Runtime.game.getItemByName(s.get(1)).id); // Item mit ID aufheben
                     System.out.println("Ok.");
                 }
                 else
@@ -390,7 +406,7 @@ public class Commands implements Serializable
                 }
             }
         }
-        else if (s.get(0).equalsIgnoreCase("w"))
+        else if (s.get(0).equalsIgnoreCase("w")) // Nach Westen gehen
         {
             if (Runtime.game.getRoomByID(Runtime.game.player.position).west != -1 && !Runtime.game.isDirectionClosed(Runtime.game.getRoomByID(Runtime.game.player.position).door, "west"))
             {
@@ -408,7 +424,7 @@ public class Commands implements Serializable
                 else System.out.println(msg);
             }
         }
-        else if (s.get(0).equalsIgnoreCase("o"))
+        else if (s.get(0).equalsIgnoreCase("o")) // Nach Osten gehen
         {
             if (Runtime.game.getRoomByID(Runtime.game.player.position).east != -1 && !Runtime.game.isDirectionClosed(Runtime.game.getRoomByID(Runtime.game.player.position).door, "east"))
             {
@@ -427,7 +443,7 @@ public class Commands implements Serializable
             }
 
         }
-        else if (s.get(0).equalsIgnoreCase("n"))
+        else if (s.get(0).equalsIgnoreCase("n")) // Nach Norden gehen
         {
             if (Runtime.game.getRoomByID(Runtime.game.player.position).north != -1 && !Runtime.game.isDirectionClosed(Runtime.game.getRoomByID(Runtime.game.player.position).door, "north"))
             {
@@ -445,7 +461,7 @@ public class Commands implements Serializable
                 else System.out.println(msg);
             }
         }
-        else if (s.get(0).equalsIgnoreCase("s"))
+        else if (s.get(0).equalsIgnoreCase("s")) // Nach Süden gehen
         {
             if (Runtime.game.getRoomByID(Runtime.game.player.position).south != -1 && !Runtime.game.isDirectionClosed(Runtime.game.getRoomByID(Runtime.game.player.position).door, "south"))
             {
@@ -463,17 +479,17 @@ public class Commands implements Serializable
                 else System.out.println(msg);
             }
         }
-        else if (s.get(0).equalsIgnoreCase("i"))
+        else if (s.get(0).equalsIgnoreCase("i")) // Alle Items im Inventar anschauen; ALTERNATIVER NAME
         {
             System.out.println("In deinem Inventar ist folgendes: ");
 
             for (Item i : Runtime.game.player.inventory.items)
             {
-                System.out.println("\t- "+i.name.alternative);
+                System.out.println("\t- "+i.name.alternative); // Item wird mit alternativem Namen aufgelistet
             }
             System.out.println("\nDu hast "+Runtime.game.player.inventory.getFilledSize()+"/"+Runtime.game.player.inventory_size+" freien Platz belegt.");
         }
-        else if (s.get(0).equalsIgnoreCase("load"))
+        else if (s.get(0).equalsIgnoreCase("load")) // Spiel aus Speicherdatei laden
         {
             System.out.print("moechten sie den jetzigen spielstand speichern? (ja/nein) >> ");
             String inp = (new Scanner(System.in)).nextLine();
@@ -490,7 +506,7 @@ public class Commands implements Serializable
             System.out.println("Geladen!");
 
         }
-        else if (s.get(0).equalsIgnoreCase("save"))
+        else if (s.get(0).equalsIgnoreCase("save")) // Spiel speichern
         {
             System.out.print("wie soll die speicherdatei heissen? >> ");
             String inp = (new Scanner(System.in)).nextLine();
@@ -499,7 +515,7 @@ public class Commands implements Serializable
 
             Runtime.save(Runtime.game, inp);
         }
-        else if (s.get(0).equalsIgnoreCase("new_game"))
+        else if (s.get(0).equalsIgnoreCase("new_game")) // Neues Spiel generieren (ohne Speicherdatei)
         {
             System.out.print("moechten sie den jetzigen spielstand speichern? (ja/nein) >> ");
             String inp = (new Scanner(System.in)).nextLine();
@@ -513,7 +529,7 @@ public class Commands implements Serializable
             }
 
             Runtime.game = new Game();
-            Runtime.initYaml(Runtime.yaml_file);
+            Runtime.initYaml(Runtime.yaml_file); // Ein neues Spiel erstellen
         }
         else if (s.get(0).equalsIgnoreCase("help") || s.get(0).equalsIgnoreCase("hilfe"))
         {
@@ -557,7 +573,7 @@ public class Commands implements Serializable
                 return;
             }
 
-            execute(lexer("q"));
+            execute(lexer("q")); // Den Befehl q ausführen
         }
         else
         {

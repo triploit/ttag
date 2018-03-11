@@ -6,7 +6,7 @@ import io.github.triploit.ttag.container.RoomAttribut;
 import java.io.Serializable;
 import java.util.Map;
 
-public class Door implements Serializable
+public class Door implements Serializable // Siehe für bessere Dokumentation Item.java - ähnliches bis gleiches Prinzip
 {
     public String v_name;
     public int id, key_id, room;
@@ -21,7 +21,7 @@ public class Door implements Serializable
         {
             Map doors = (Map) d.get("doors");
 
-            if (doors == null && Runtime.warning)
+            if (doors == null && Runtime.warning) // Schauen ob keine Türen angegeben wurden und ob man Warnungen ausgeben darf
             {
                 Runtime.printWarning("(FATAL) keine tueren angegeben. ueberspringe.");
                 return;
@@ -34,6 +34,8 @@ public class Door implements Serializable
 
                 if (tm != null)
                 {
+                    // Mit Runtime.setXXX(Wert, WarnungsNachricht) kann man einen Wert setzen, ohne Vorher überprüfen zu müssen, ob dieser in einer Map definiert ist. Existiert dieser in der Map nicht, wird die Warnung ausgegeben
+
                     Door toadd = new Door();
 
                     toadd.v_name = Runtime.setString((String) door, "unmögliche warnung! sollte diese warnung auftreten, bitte kontaktieren sie umgehend den entwickler (WID: 1)!");

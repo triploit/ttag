@@ -9,9 +9,10 @@ import java.util.List;
 
 public class Inventory implements Serializable
 {
-    public List<Item> items = new ArrayList<Item>();
+    public List<Item> items = new ArrayList<Item>(); // Die Liste an Items
+    // Später auch Objekte
 
-    public Item getItemByName(String name)
+    public Item getItemByName(String name) // Item mit Name finden
     {
         for (Item i : items)
         {
@@ -24,7 +25,7 @@ public class Inventory implements Serializable
         return null;
     }
 
-    public Item getItemByID(int id)
+    public Item getItemByID(int id) // Item mit ID finden
     {
         for (Item i : items)
         {
@@ -37,7 +38,7 @@ public class Inventory implements Serializable
         return null;
     }
 
-    public boolean existsItemByName(String name)
+    public boolean existsItemByName(String name) // Schauen ob Item mit bestimmtem Namen existiert
     {
         for (Item i : items)
         {
@@ -50,7 +51,7 @@ public class Inventory implements Serializable
         return false;
     }
 
-    public void collectItemFromGame(int id)
+    public void collectItemFromGame(int id) // Item aus Spiel in Spielerinventar aufheben/verschieben
     {
         if (getFilledSize() > Runtime.game.player.inventory_size)
         {
@@ -61,7 +62,7 @@ public class Inventory implements Serializable
         Runtime.game.removeItem(id);
     }
 
-    public int getFilledSize()
+    public int getFilledSize() // Schauen wie voll das Inventar ist
     {
         int c = 0;
         for (Item i : items)
@@ -71,7 +72,7 @@ public class Inventory implements Serializable
         return c;
     }
 
-    public boolean existsItemByID(int id)
+    public boolean existsItemByID(int id) // Schauen ob Item mit der ID existiert
     {
         for (Item i : items)
         {
@@ -84,7 +85,7 @@ public class Inventory implements Serializable
         return false;
     }
 
-    public void removeItemByName(String name)
+    public void removeItemByName(String name) // Item mit Name entfernen
     {
         for (int i = 0; i < items.size(); i++)
         {
@@ -92,7 +93,7 @@ public class Inventory implements Serializable
         }
     }
 
-    public void removeItemByID(int id)
+    public void removeItemByID(int id) // Item mit ID entfernen
     {
         for (int i = 0; i < items.size(); i++)
         {

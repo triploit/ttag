@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public class RoomAttribut implements Serializable
 {
-    public boolean dark, hot, cold, inside;
-    public String description;
+    public boolean dark, hot, cold, inside; // Attribute: dunkler Raum, heißer Raum, kalter Raum, ???
+    public String description; // Beschreibung des Raums
 }

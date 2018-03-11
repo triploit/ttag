@@ -5,18 +5,14 @@ import io.github.triploit.ttag.container.Name;
 import java.io.Serializable;
 import java.util.Map;
 
-public class Monster implements Serializable
+public class Monster implements Serializable // Bessere Dokumentation in Item.java - ähnliches/gleiches Prinzip
 {
-    public int strength;
-    public int health;
+    public int strength; // Stärke des Monsters (Angriff pro Schlag)
+    public int health; // Wie viele Leben das Monster hat
     public Name name = new Name();
-    public int position;
-    public int id;
-    public String v_name;
-
-    public String name_genitiv; // 	Wessen?
-    public String name_dativ; //		Wem?
-    public String name_akkusativ; //	Wen oder Was?
+    public int position; // Wo das Monster ist
+    public int id; // ID des Monsters
+    public String v_name; // Variablenname
 
     public static void init(Map d)
     {

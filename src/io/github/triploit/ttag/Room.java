@@ -8,13 +8,13 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.Map;
 
-public class Room implements Serializable
+public class Room implements Serializable // Siehe für eine bessere Dokumentation "Item.java" - ähnliches/gleiches Prinzip
 {
-    public int north = -1, south = -1, east = -1, west = -1;
+    public int north = -1, south = -1, east = -1, west = -1; // Türen, auf die der Raum verweist. So später Türen möglich
     public Name name = new Name();
     public int id;
     public String v_name;
-    public RoomAttribut attributes = new RoomAttribut();
+    public RoomAttribut attributes = new RoomAttribut(); // Attribute speziell für Räume
     public String see_dark;
     public String see_light;
     public int door;
