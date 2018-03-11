@@ -1,0 +1,171 @@
+name: "Spieltitel"
+warnings: true
+
+player:
+  inventory: 45
+  position: 0
+
+rooms:
+    Anfang2:
+        id: 1
+        door: 6
+        name:
+            akkusativ: "Anfang2"
+            genitiv: "Anfang2s"
+            dativ: "Anfang2"
+            light: "Anfang2"
+            dark: "Anfang2"
+            alternative: "Anfang2"
+            name: "Anfang2"
+
+        east: 0
+        see_light: "Auch dieser Raum ist fast unscheinbar."
+
+    DerRaum:
+        id: 0
+        door: 7
+
+        name:
+            akkusativ: "DenRaum"
+            genitiv: "DesRaums"
+            dativ: "DemRaum"
+            light: "DerRaum"
+            dark: "DerRaum"
+            alternative: "DerRaum"
+            name: "DerRaum"
+
+        east: 0
+        west: 1
+        north: 9
+        see_light: "Dieser Raum ist fast unscheinbar."
+
+    Room3:
+        id: 9
+        door: 10
+
+        name:
+            akkusativ: "Room3"
+            genetiv: "Room3s"
+            dativ: "Room3"
+            light: "Room3"
+            dark: "Dunkler Raum"
+            name: "Room3"
+            alternative: "Room3"
+
+        attributes:
+            dark: true
+
+        south: 0
+        see_light: "Auch dieser Raum ist leer."
+        see_dark: "Es ist zu dunkel um hier etwas zu sehen."
+
+doors:
+    d_Anfang2:
+        id: 6
+        key_id: -1
+
+        description:
+            north: "Diese Richtung ist momentan nicht passierbar."
+            west: "Diese Richtung kann man nicht beschreiten."
+            east: "Eigentlich solltest du hier langgehen können."
+            south: "Dieser Weg kann nich gegangen werden."
+
+        directions:
+            north: false
+            west: false
+            east: true
+            south: false
+
+    d_DerRaum:
+        id: 7
+        key_id: -1
+
+        description:
+            north: "Hier solltest du eigentlich langgehen können."
+            south: "Der Raum ist so leer, dass du hier nicht langgehen kannst."
+            east: "Hier solltest du eigentlich langgehen können."
+            west: "Hier solltest du eigentlich langgehen können."
+
+        directions:
+            north: true
+            south: false
+            east: true
+            west: true
+
+    d_Room3:
+        id: 10
+        key_id: -1
+
+        description:
+            north: "Hier gehts net weiter."
+            south: "...?"
+            west: "XXX"
+            east: "XXX"
+
+        directions:
+            north: false
+            south: true
+            west: false
+            east: false
+
+items:
+    Brief:
+        size: 1
+        see: "Ein Brief."
+        see_light: "Ein Brief liegt auf dem Boden."
+        description: "Es ist ein kleiner Brief. Bestimmt kann man ihn noch lesen."
+        id: 5
+        position: 9
+
+        name:
+            alternative: "Brief"
+            akkusativ: "kleinen Brief"
+            genitiv: "kleinen Briefes"
+            dativ: "kleinem Brief"
+            name: "kleiner Brief"
+
+        attributes:
+            light: false
+            activateable: false
+            activated: false
+            catchable: true
+            readable: true
+            text: "Willkommen im Tutorial!"
+            weapon: false
+            key: false
+            key_id: -1
+            need_to_activate:
+            - 0
+            - 1
+            - 2
+            burnable: true
+            fire_at_activation: false
+
+    Fackel:
+        size: 15
+        see: "Eine Fackel."
+        see_light: "Eine Fackel erleuchtet den Raum."
+        description: "Es ist eine Fackel. Sie brennt vor sich hin."
+        id: 8
+        position: 9
+
+        name:
+            alternative: "Fackel"
+            akkusativ: "Fackel"
+            genitiv: "Fackels"
+            dativ: "Fackel"
+            name: "Fackel"
+            genus: f
+
+        attributes:
+            light: true
+            activateable: false
+            activated: true
+            catchable: true
+            readable: false
+            burnable: false
+
+            weapon: false
+            key: false
+            key_id: -1
+            fire_at_activation: true
